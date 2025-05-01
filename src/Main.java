@@ -5,12 +5,13 @@ public class Main {
         int[] threadsNumbers = new int[]{4, 8, 16, 32};
 
         for (int i = 0; i < threadsNumbers.length; i++) {
-            long start = System.currentTimeMillis();
             int threadsNumber = threadsNumbers[i];
             System.out.println(String.format("Number of threads: %s", threadsNumber));
-            int dim = 100_000_000;
+            int dim =500_000_000;
+
 
             MyArray myArray = new MyArray(dim, threadsNumber);
+            long start = System.currentTimeMillis();
             int[] min = myArray.threadMin();
             long end = System.currentTimeMillis();
             System.out.println(String.format("Min=%s\nIndex=%s", min[0], min[1]));
