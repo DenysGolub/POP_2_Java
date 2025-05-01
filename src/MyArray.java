@@ -65,30 +65,23 @@ public class MyArray {
         int basePartition = dim / threadNum;
         int equalParts = threadNum;
 
-
         int remainingSize = dim % threadNum;
-        for(int i = 0; i<threadMins.length; i++)
-        {
-            int index = 0;
-            while (equalParts > 0) {
-                int sIndex = index;
-                int fIndex = index+basePartition;
-                threadMins[i] = new ThreadMin(sIndex, fIndex, this);
-                threadMins[i].start();
-//                System.out.println(sIndex + "-" + fIndex);
-                index += basePartition;
-                equalParts--;
-                i++;
-            }
+        int index = 0;
+        int i = 0;
 
-            if(remainingSize > 0) {
-                i--;
-//                System.out.println(String.format("%s - %s", dim-remainingSize, dim-1));
-                threadMins[i] = new ThreadMin(dim-remainingSize, dim-1, this);
-                threadMins[i].start();
-            }
-
+        for (; i < equalParts; i++) {
+            int sIndex = index;
+            int fIndex = index + basePartition;
+            threadMins[i] = new ThreadMin(sIndex, fIndex, this);
+            threadMins[i].start();
+            index += basePartition;
         }
+        i--;
+        if (remainingSize > 0) {
+            threadMins[i] = new ThreadMin(dim - remainingSize, dim - 1, this);
+            threadMins[i].start();
+        }
+
 
         return getMin();
     }
